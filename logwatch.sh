@@ -1,0 +1,5 @@
+#!/bin/bash
+[[ -z $1 ]] && printf "Usage: ${0##*/} logfile\n\nDisplays boring logfiles in useful colours.\nSee https://github.com/gerritonagoodday/logwatch for more info\n\n" && exit 1
+printf "Watching log file $1. Ctrl-C to quit.\n"
+#                                         WARNING Yellow                 ERROR Red                       FATAL Red blink                         INFO Green                     DEBUG Blue                       TODO Cyan                        SECURITY Yellow Blink                    HEARTBEAT Magenta                        Light Blue trace markers                               Twitter feed Cyan
+tail -f -n 50 $1 | sed 's#\[WARNING\s*\]#\x1b[33m&\x1b[0m#; s#\[ERROR\]#\x1b[31m&\x1b[0m#;  s#\[FATAL\]#\x1b[31m\x1b[5m&\x1b[0m#; s#\[INFO\s*\]#\x1b[32m&\x1b[0m#; s#\[DEBUG\]#\x1b[34m&\x1b[0m#; s#\[TODO\s*\]#\x1b[36m&\x1b[0m#; s#\[SECURITY\]#\x1b[33m\x1b[5m&\x1b[0m#; s#\[HEART\]#\x1b[35m&\x1b[0m#; s#\[TRACE\]#\x1b[1;34m&\x1b[0m#; s#=\{3,\}#\x1b[1;34m&\x1b[0m#g; s#\[TWITTER\].*#\x1b[1;36m&\x1b[0m#;'
